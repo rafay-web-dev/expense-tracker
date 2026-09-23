@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Tracker</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            margin: 60px auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #94a3b8;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .total {
+            text-align: center;
+        }
+
+        .total h2 {
+            color: #f59e0b;
+            font-size: 32px;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input {
+            flex: 1;
+            min-width: 180px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #334155;
+            color: white;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        button {
+            padding: 13px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #f59e0b;
+            color: #111827;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .expense {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #334155;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .expense-name {
+            font-weight: bold;
+        }
+
+        .expense-amount {
+            color: #fbbf24;
+            margin-left: 10px;
+        }
+
+        .delete {
+            background: #ef4444;
+            color: white;
+            padding: 8px 12px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>💰 Expense Tracker</h1>
+        <p>Keep track of your spending</p>
+    </div>
+
+    <div class="card total">
+        <h2>${{ "%.2f"|format(total) }}</h2>
+        <p>Total Expenses</p>
+    </div>
+
+    <div class="card">
+
+        <form method="POST">
+            <input
+                type="text"
+                name="name"
+                placeholder="Expense name"
+                required
+            >
+
+            <input
+                type="number"
+                name="amount"
+                placeholder="Amount"
+                step="0.01"
+                required
+            >
+
+            <button type="submit">Add Expense</button>
+        </form>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Expenses</h2>
+
+        {% if expenses %}
+
+            {% for expense in expenses %}
+
+                <div class="expense">
+
+                    <div>
+                        <span class="expense-name">
+                            {{ expense.name }}
+                        </span>
+
+                        <span class="expense-amount">
+                            ${{ "%.2f"|format(expense.amount) }}
+                        </span>
+                    </div>
+
+                    <a href="/delete/{{ loop.index0 }}">
+                        <button class="delete" type="button">
+                            Delete
+                        </button>
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="empty">No expenses yet.</p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
